@@ -1,0 +1,21 @@
+<h3>Upload csv file with authors</h3>
+<%= form_with(url: { action: :upload }, multipart: true) do %>
+  <%= file_field_tag "csvfile" %>
+  <br/><br/>
+  <%= submit_tag %>
+<% end %>
+<br/><br/>
+<table style="font-family: sans-serif;">
+  <tr>
+    <th>Email</th>
+    <th>First name</th>
+    <th>Last name</th>
+  </tr>
+  <% @authors.each do |item| %>
+    <tr>
+      <td><%= item.email %></td>
+      <td><%= item.first_name %></td>
+      <td><%= item.last_name %></td>
+    </tr>
+  <% end %>
+</table>

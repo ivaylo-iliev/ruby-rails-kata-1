@@ -1,0 +1,41 @@
+<h3>Upload csv file with publications</h3>
+<%= form_with(url: { action: :upload }, multipart: true) do %>
+  <%= file_field_tag("csvfile") %>
+  <%= submit_tag("Upload", name: nil) %>
+<% end %>
+<br/>
+
+<%= form_tag(publications_index_path, method: "get") do %>
+  <%= label_tag(:search, "Enter ISBN or Autor E-mail address: ") %>
+  <%= text_field_tag(:search, params[:search]) %>
+  <%= submit_tag("Search", name: nil) %>
+  
+<% end %>
+
+<br/>
+
+<table>
+   <colgroup>
+    <col width="20%;">
+    <col width="7%;">
+    <col width="15%;">
+    <col>
+    <col width="6%;">
+  </colgroup>
+  <tr>
+    <th>Title</th>
+    <th>ISBN</th>
+    <th>Authors</th>
+    <th>Description</th>
+    <th>Published At</th>
+  </tr>
+  <% @publications.each do |item| %>
+    <tr>
+      <td><%= item.title %></td>
+      <td class="isbn"><%= item.isbn %></td>
+      <td><%= item.authors %></td>
+      <td><%= item.description %></td>
+      <td class="published_at"><%= item.published_at %></td>
+    </tr>
+  <% end %>
+</table>

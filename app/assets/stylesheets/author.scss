@@ -1,0 +1,31 @@
+// Place all the styles related to the author controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+// Place all the styles related to the publications controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+table{
+  font-family: Verdana, sans-serif;
+  font-size: 10pt;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  border-collapse: collapse;
+}
+
+th{
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+td{
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  border-collapse: collapse;
+}
