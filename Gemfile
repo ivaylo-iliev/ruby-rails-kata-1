@@ -9,6 +9,7 @@ gem 'puma', '~> 3.12'
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
+gem "actionview", ">= 5.2.4.2"
 
 # FRONT END
 gem 'sass-rails', '~> 5.0'
