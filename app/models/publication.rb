@@ -7,12 +7,9 @@ class Publication < ApplicationRecord
   def self.search(search)
     Publication.all if search.nil?
 
-    isbn = Publication.arel_table[:isbn]
-    authors = Publication.arel_table[:authors]
-
-    result = Publication.where(isbn.matches("%#{search}%"))
-    result = Publication.where(authors.matches("%#{search}%")) if result.empty?
-    result = Publication.all if result.empty? || result.nil?
+    result = Publication.where("isbn LIKE '%#{search}%'")
+    result = Publication.where("authors LIKE '%#{search}%'") if result.empty?
+    result = Publication.all if result.empty?
 
     publications = result
     publications
