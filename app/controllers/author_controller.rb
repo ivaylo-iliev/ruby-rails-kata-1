@@ -28,7 +28,8 @@ class AuthorController < ApplicationController
 
   # Parse the uploaded csv file and inserts it to the database
   def parse(uploaded_file)
-    # Do not proceed in case the file name does not contain the word author in it
+    # Do not proceed in case the file name 
+    # does not contain the word author in it
     return unless uploaded_file.original_filename.include?('author')
 
     # Use ';' for column separator
