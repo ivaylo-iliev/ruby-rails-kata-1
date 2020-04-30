@@ -7,28 +7,32 @@ class PublicationsController < ApplicationController
 
   def upload
     uploaded_file = params['csvfile']
-    parse uploaded_file
+    parse uploaded_file unless uploaded_file.nil?
   end
 
-  def search; end
+  def create_new_record(record_data)
+    return if record_data.nil?
+
+    new_publication = Publication.new
+    new_publication.title = record_data['title']
+    new_publication.isbn = record_data['isbn']
+    new_publication.authors = record_data['authors']
+    new_publication.published_at = record_data['publishedAt'] || ''
+    new_publication.description = record_data['description'] || ''
+    new_publication
+  end
 
   def parse(file)
-    if file.original_filename.include?('magazine') || file.original_filename.include?('book')
-      data = CSV.parse(file.open, col_sep: ';', headers: true)
-      t_data = data.map(&:to_hash)
-      t_data.each do |row|
-        record = Publication.new
-        record.title = row['title']
-        record.isbn = row['isbn']
-        record.authors = row['authors']
-        record.published_at = row['publishedAt'] != '' ? row['publishedAt'] : ''
-        record.description = row['description'] != '' ? row['description'] : ''
+    return unless file.original_filename.include?('magazine') ||
+                  file.original_filename.include?('book')
 
-        record.save
-      end
-      redirect_to(publications_index_path, flash: { notice: 'All done' }) && return
-    else
-      redirect_to(publications_index_path, flash: { notice: "The file should contain 'magazine' or 'book' in its name" }) && return
+    data_from_file = CSV.parse(file.open, col_sep: ';', headers: true)
+    publication_data_map = data_from_file.map(&:to_hash)
+    publication_data_map.each do |publication|
+      publication_record = create_new_record(publication)
+      publication_record&.save
     end
+
+    redirect_to(publications_index_path, flash: { notice: 'All done' })
   end
 end
