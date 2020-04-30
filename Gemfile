@@ -30,11 +30,11 @@ group :development do
 end
 
 group :test do
+  gem "faker", :git => "https://github.com/faker-ruby/faker.git", :branch => "master"
   gem "rspec-rails", "~> 3.8"
   gem "capybara", ">= 2.15"
   gem "selenium-webdriver"
   gem "chromedriver-helper"
 end
 
-gem "faker", :git => "https://github.com/faker-ruby/faker.git", :branch => "master"
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]

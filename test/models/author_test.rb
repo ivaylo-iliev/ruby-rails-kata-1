@@ -47,15 +47,15 @@ class AuthorTest < ActiveSupport::TestCase
 
   test 'should not save author without unique mail' do
     email = Faker::Internet.unique.email
-    author1 = Author.new( 
+    author1 = Author.new(
       email: email, 
       first_name: Faker::Name.unique.first_name,
       last_name: Faker::Name.unique.last_name
     )
     assert author1.save
-    
+
     author2 = Author.new(
-      email: email, 
+      email: email,
       first_name: Faker::Name.unique.first_name,
       last_name: Faker::Name.unique.last_name
     )

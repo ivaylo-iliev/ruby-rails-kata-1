@@ -64,7 +64,7 @@ class AuthorTest < ActiveSupport::TestCase
 
       i += 1
     end
-    assert Publication.search('').size == 10
+    assert_equal 10, Publication.search('').size
   end
 
   test 'should search by ISBN' do
@@ -87,7 +87,7 @@ class AuthorTest < ActiveSupport::TestCase
 
       i += 1
     end
-    assert Publication.search(isbn).size == 1
+    assert_equal 1, Publication.search(isbn).size
   end
 
   test 'should search by author' do
@@ -110,6 +110,21 @@ class AuthorTest < ActiveSupport::TestCase
 
       i += 1
     end
-    assert Publication.search(author).size == 1
+    assert_equal 1, Publication.search(author).size
+  end
+
+  test 'should return all data if nothing is found' do
+    i = 0
+    while i < 10
+      Publication.new(
+        isbn: Faker::Code.unique.isbn,
+        authors: Faker::Internet.unique.email,
+        title: Faker::Book.title,
+        description: Faker::Lorem.unique.paragraph
+      ).save
+
+      i += 1
+    end
+    assert_equal 10, Publication.search('827829034qweqwe').size
   end
 end

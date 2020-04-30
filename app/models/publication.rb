@@ -5,16 +5,16 @@ class Publication < ApplicationRecord
   validates :isbn, presence: true, uniqueness: true
 
   def self.search(search)
-    Publication.all if search.empty?
+    Publication.all if search.nil?
 
     isbn = Publication.arel_table[:isbn]
     authors = Publication.arel_table[:authors]
 
     result = Publication.where(isbn.matches("%#{search}%"))
-    if result.empty?
-      result = Publication.where(authors.matches("%#{search}%"))
-    end
-    publications = result || Publication.all
+    result = Publication.where(authors.matches("%#{search}%")) if result.empty?
+    result = Publication.all if result.empty? || result.nil?
+
+    publications = result
     publications
   end
 end

@@ -2,16 +2,20 @@
 
 require 'csv'
 
+# Class to handle parse and upload of csv files for authors data
 class AuthorController < ApplicationController
   def index
+    # Load all data on page load
     @authors = Author.all
   end
 
+  # Handle upload of csv file
   def upload
     uploaded_file = params['csvfile']
     parse uploaded_file unless uploaded_file.nil?
   end
 
+  # Generate single record of type Author
   def create_new_record(record_data)
     return if record_data.nil?
 
@@ -22,15 +26,18 @@ class AuthorController < ApplicationController
     new_author
   end
 
-  def parse(file)
-    return unless file.original_filename.include?('author')
+  # Parse the uploaded csv file and inserts it to the database
+  def parse(uploaded_file)
+    # Do not proceed in case the file name does not contain the word author in it
+    return unless uploaded_file.original_filename.include?('author')
 
-    data_from_file = CSV.parse(file.open, col_sep: ';', headers: true)
+    # Use ';' for column separator
+    data_from_file = CSV.parse(uploaded_file.open, col_sep: ';', headers: true)
     author_data_map = data_from_file.map(&:to_hash)
 
     author_data_map.each do |author|
       author_record = create_new_record(author)
-      author_record&.save
+      author_record&.save # Check if the record is not nil and save it
     end
 
     redirect_to(author_index_path)
